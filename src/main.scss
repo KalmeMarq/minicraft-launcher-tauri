@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #1f1f1f;
+  -moz-user-select: none;
+  -webkit-user-select: none;	
+  user-select: none;
+  color: white;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+// Notifs
+.notification {
+  background: #FFF;
+  border-radius: 4px;
+  max-width: 320px;
+  height: max-content;
+  color: black;
+  display: flex;
+  padding: 0.3rem 0;
+  flex-direction: row;
+  box-shadow: 0 4px 4px #00000066;
+
+  .notif-icon {
+    width: 40px;
+  }
+
+  .notif-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.1rem 0.5rem;
+    gap: 0.2rem 0;
+  }
+
+  .notif-buttons {
+    display: flex;
+    gap: 0 1rem;
+
+    button {
+      cursor: pointer;
+      background: none;
+      border: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
