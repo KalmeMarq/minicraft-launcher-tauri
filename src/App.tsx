@@ -1,31 +1,70 @@
-import { invoke } from '@tauri-apps/api';
-import { useEffect, useState } from 'react';
+import MainMenu from "@frontend/components/MainMenu";
+import MainMenuTab, {
+  MainMenuTabButton,
+} from "@frontend/components/MainMenu/components/MainMenuTab";
+import Community from "@frontend/routes/Community";
+import Minicraft from "@frontend/routes/Minicraft";
+import MinicraftPlus from "@frontend/routes/MinicraftPlus";
+import Settings from "@frontend/routes/Settings";
+import miniIcon from "@frontend/assets/images/icons/minicraft_icon.png";
+import miniplusIcon from "@frontend/assets/images/icons/minicraftplus_icon.png";
+import settingsIcon from "@frontend/assets/images/icons/settings_icon.png";
+import lnewsIcon from "@frontend/assets/images/icons/lnew_icon.png";
+import comIcon from "@frontend/assets/images/icons/store_icon.png";
+import {
+  HashRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 function App() {
-  const [a, setA] = useState('');
-
-  const aa = {
-    a: ''
-  };
-
-  useEffect(() => {
-    invoke('get_launcher_path').then((d) => {
-      setA(d as string);
-    });
-  }, []);
-
   return (
     <>
-      <h1>Updater Test Version 0.0.1</h1>
-      <div className="notification">
-        <div className="notif-icon"></div>
-        <div className="notif-content">
-          <div className="notif-text">{a} The update was released</div>
-          <div className="notif-buttons">
-            <button>Restart now</button>
-            <button>Later</button>
+      <div className="app">
+        <Router>
+          <MainMenu>
+            <MainMenuTab
+              to="/minicraftplus"
+              tooltip="Minicraft Plus"
+              icon={miniplusIcon}
+            >
+              <i>Minicraft</i>
+              <span>Plus</span>
+            </MainMenuTab>
+            <MainMenuTab to="/minicraft" tooltip="Minicraft" icon={miniIcon}>
+              Minicraft
+            </MainMenuTab>
+            <MainMenuTab to="/community" tooltip="Community" icon={comIcon}>
+              Community
+            </MainMenuTab>
+            <div className="filler"></div>
+            <MainMenuTabButton
+              onClick={() => {
+                console.log("open what's new");
+              }}
+              tooltip="What's New"
+              icon={lnewsIcon}
+            >
+              What's New
+            </MainMenuTabButton>
+            <MainMenuTab to="/settings" tooltip="Settings" icon={settingsIcon}>
+              Settings
+            </MainMenuTab>
+          </MainMenu>
+          <div className="routes">
+            <Routes>
+              <Route
+                path="/"
+                element={<Navigate to="/minicraftplus" replace />}
+              ></Route>
+              <Route path="/minicraftplus/*" element={<MinicraftPlus />} />
+              <Route path="/minicraft/*" element={<Minicraft />} />
+              <Route path="/community/*" element={<Community />} />
+              <Route path="/settings/*" element={<Settings />} />
+            </Routes>
           </div>
-        </div>
+        </Router>
       </div>
     </>
   );

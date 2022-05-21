@@ -1,7 +1,132 @@
+:root {
+  --mainmenu-background: #262626;
+  --mainmenu-tab-foreground: #FFFFFF;
+  --mainmenu-tab-background-hover: #3d3d3d;
+  --mainmenu-tab-background-active: #383838;
+  --mainmenu-tab-active-marker: #FFFFFF;
+  --mainmenu-tab-focus: #FFFFFF; 
+  --submenu-background: #262626;
+  --submenu-header-foreground: #FFFFFF;
+  --submenu-tab-foreground: #e3e3e3;
+  --submenu-tab-foreground-hover: #c9c9c9;
+  --submenu-tab-foreground-active: #FFFFFF;
+  --submenu-tab-active-marker: #008542;
+  --page-background: #323232;
+  --page-foreground: #FFFFFF;
+  --page-horizontal-line: #494949;
+  --patchnotecard-background: #0F0F0F;
+  --patchnotecard-background-hover: #262626;
+  --patchnotecard-background-active: #131313;
+  --patchnotecard-title: #FFFFFF;
+  --patchnote-h1-foreground: #FFFFFF;
+  --patchnote-h2-foreground: #FFFFFF;
+  --patchnote-h3-foreground: #FFFFFF;
+  --patchnote-h4-foreground: #FFFFFF;
+  --patchnote-h5-foreground: #FFFFFF;
+  --patchnote-p-foreground: #FFFFFF;
+  --patchnote-li-foreground: #FFFFFF;
+  --patchnote-a-foreground: #FFFFFF;
+  --loadingspinner-background: #FFFFFF;
+  --play-banner-shadow: #000000;
+  --playbutton-foreground: #FFFFFF;
+  --playbutton-foreground-disabled: #AAA;
+  --playbutton-border: black;
+  --playbutton-border-active: white;
+  --playbutton-top: #27CE40;
+  --playbutton-top-active: #064D2A;
+  --playbutton-top-disabled: #1B902D;
+  --playbutton-side: #0C6E3D;
+  --playbutton-bottom: #064D2A;
+  --playbutton-bottom-active: #0AA618;
+  --playbutton-bottom-disabled: #04361D;
+  --playbutton-gradient-top: #009147;
+  --playbutton-gradient-top-hover: #0A8F4C;
+  --playbutton-gradient-top-active: #008542;
+  --playbutton-gradient-top-focus: #0A9B51;
+  --playbutton-gradient-top-disabled: #006532;
+  --playbutton-gradient-bottom: #008542;
+  --playbutton-gradient-bottom-hover: #0A9B51;
+  --playbutton-gradient-bottom-active: #009147;
+  --playbutton-gradient-bottom-focus: #0A8F4C;
+  --playbutton-gradient-bottom-disabled: #005D2E;
+  --checkbox-background-on: #008542;
+  --checkbox-background-hover-on: #0DD166;
+  --modal-background: #303030;
+  --modal-title-foreground: #FFFFFF;
+  --modal-horizontal-line: #373737;
+  --scrollbar-background: #262626;
+  --scrollbar-thumb-background: #4d4d4d;
+  --scrollbar-thumb-background-hover: #595959;
+  --textbox-background: #131313;
+  --textbox-background-hover: #0e0e0e;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  background: var(--mainmenu-background);
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('./assets/fonts/Minecraft.ttf');
+}
+
+@font-face {
+  font-family: 'MinecraftTen';
+  src: url('./assets/fonts/MinecraftTen.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src:
+    local("Noto Sans"),
+    local("NotoSans"),
+    url('./assets/fonts/NotoSans-Regular.ttf') format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+}
+  
+@font-face {
+  font-family:'Noto Sans Bold';
+  src:
+    local("Noto Sans Bold"),
+    local("NotoSans-Bold"),
+    url('./assets/fonts/NotoSans-Bold.ttf') format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+}
+
+@font-face {
+  font-family:'Noto Sans Italic';
+  src: 
+    local("Noto Sans Italic"),
+    local("NotoSans-Italic"),
+    url('./assets/fonts/NotoSans-Italic.ttf') format("truetype");
+  font-style: italic;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+}
+
+@font-face {
+  font-family:'Noto Sans Bold Italic';
+  src: 
+    local("Noto Sans Bold Italic"),
+    local("NotoSans-BoldItalic"),
+    url('./assets/fonts/NotoSans-BoldItalic.ttf') format("truetype");
+  font-style: italic;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -10,7 +135,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #1f1f1f;
+  background: var(--mainmenu-background);
   -moz-user-select: none;
   -webkit-user-select: none;	
   user-select: none;
@@ -22,17 +147,70 @@ code {
     monospace;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--mainmenu-background);
+}
+
+// Base
+.app {
+  display: flex;
+  flex-direction: row;
+  overflow-y: auto;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.routes {
+  width: 100%;
+  height: 100%;
+}
+
+::-webkit-scrollbar { 
+  width: 8px;
+  background: var(--scrollbar-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-background-hover);
+}
+
+.base-route {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 100%;
+  background: var(--page-background);
+  overflow: hidden;
+  color: var(--page-foreground);
+}
+
+.sub-page {
+  top: 83px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: hidden;
+}
+
 // Notifs
 .notification {
-  background: #FFF;
+  background: #D93636;
   border-radius: 4px;
   max-width: 320px;
   height: max-content;
-  color: black;
+  color: color;
   display: flex;
   padding: 0.3rem 0;
   flex-direction: row;
-  box-shadow: 0 4px 4px #00000066;
+  box-shadow: 0 2px 4px #00000066;
 
   .notif-icon {
     width: 40px;

@@ -1,0 +1,20 @@
+.main-menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 180px;
+  max-width: 180px;
+  height: 100%;
+  background: var(--mainmenu-background);
+
+  .filler {
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 964px) {
+  .main-menu {
+    min-width: 60px;
+    max-width: 60px;
+  }
+}
