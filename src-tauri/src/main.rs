@@ -6,6 +6,8 @@
 use std::{path::PathBuf, fs::{File, self}, future::Future};
 use serde::{Deserialize, Serialize};
 use tauri::{WindowBuilder, WindowUrl, Theme, Manager};
+mod versions;
+use versions::Versions;
 
 struct LauncherState {
     versions: Versions,
@@ -21,9 +23,59 @@ fn get_versions_path() -> PathBuf {
     get_launcher_path().join("versions")
 }
 
+fn get_cache_path() -> PathBuf {
+    get_launcher_path().join("cache")
+}
+
 #[tauri::command]
 fn get_version_list(state: tauri::State<LauncherState>) -> &Versions {
     &state.inner().versions
+}
+
+async fn get_json_cached_file(file_path: PathBuf, request_url: &str) -> serde_json::Value {
+    if file_path.exists() {
+        let metadata = std::fs::metadata(&file_path).expect("Could not read metadata for version manifest file");
+
+        let dur = metadata.modified().unwrap().elapsed().unwrap();
+
+        if dur.as_secs() / 60 > 45 {
+            let json: serde_json::Value = reqwest::get(request_url.to_string()).await.expect("Could not get file from url").json().await.expect("Could not jsonify file");
+            serde_json::to_writer_pretty(&File::create(&file_path).expect("Could not cache file"), &json).expect("Could not save version file");
+            json
+        } else {
+            let data = fs::read_to_string(&file_path).expect("Could not read cached file");
+            let json: serde_json::Value = serde_json::from_str(&data).expect("Could not jsonify file");
+            json
+        }
+    } else {
+        let json: serde_json::Value = reqwest::get(request_url.to_string()).await.expect("Could not get file from url").json().await.expect("Could not jsonify file");
+        serde_json::to_writer_pretty(&File::create(&file_path).expect("Could not cache file"), &json).expect("Could not save version file");
+        json
+    }
+}
+
+#[tauri::command]
+async fn get_minicraftplus_patch_notes() -> serde_json::Value {
+    let pn_path = get_cache_path().join("minicraftplusPatchNotes.json");
+    let request_url = "https://github.com/KalmeMarq/minicraft-launcher-content/raw/main/minicraftplusPatchNotes.json";
+
+    get_json_cached_file(pn_path, &request_url).await
+}
+
+#[tauri::command]
+async fn get_minicraft_patch_notes() -> serde_json::Value {
+    let pn_path = get_cache_path().join("minicraftPatchNotes.json");
+    let request_url = "https://github.com/KalmeMarq/minicraft-launcher-content/raw/main/minicraftPatchNotes.json";
+
+    get_json_cached_file(pn_path, &request_url).await
+}
+
+#[tauri::command]
+async fn get_launcher_patch_notes() -> serde_json::Value {
+    let pn_path = get_cache_path().join("launcherPatchNotes.json");
+    let request_url = "https://github.com/KalmeMarq/minicraft-launcher-content/raw/main/launcherPatchNotes.json";
+
+    get_json_cached_file(pn_path, &request_url).await
 }
 
 fn default_language() -> String { "en-US".to_string() }
@@ -72,18 +124,6 @@ fn load_settings() -> LauncherSettings {
     settings
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
-struct Version {
-    id: String,
-    url: String,
-    size: u32
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-struct Versions {
-    versions: Vec<Version>
-}
-
 #[allow(unused_assignments)]
 fn load_versions() -> impl Future<Output = Versions>{
    async {
@@ -129,7 +169,6 @@ async fn main() {
         fs::create_dir(get_launcher_path()).expect("Could not create launcher directory");
     }
 
-
     tauri::Builder::default()
         .setup(|app| {
             let main_win = WindowBuilder::new(app, "core", WindowUrl::App("index.html".into()))
@@ -141,7 +180,6 @@ async fn main() {
                 .visible(false)
                 .build().unwrap();
 
-
             tauri::async_runtime::spawn(async move {
                 let _versions = load_versions().await;
                 let _settings = load_settings();
@@ -151,7 +189,7 @@ async fn main() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![get_launcher_path, get_version_list])
+        .invoke_handler(tauri::generate_handler![get_launcher_path, get_version_list, get_minicraftplus_patch_notes, get_minicraft_patch_notes, get_launcher_patch_notes])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

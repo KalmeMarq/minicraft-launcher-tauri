@@ -1,8 +1,9 @@
 import "./index.scss";
 
-const LoadingSpinner: React.FC<{ style?: React.CSSProperties }> = ({
-  style,
-}) => {
+const LoadingSpinner: React.FC<{
+  style?: React.CSSProperties;
+  message?: string;
+}> = ({ style, message = "Coming soon..." }) => {
   return (
     <div style={Object.assign({ position: "relative", height: "100%" }, style)}>
       <div className="nloader">
@@ -10,7 +11,7 @@ const LoadingSpinner: React.FC<{ style?: React.CSSProperties }> = ({
         <div className="nloaders nloader2"></div>
         <div className="nloaders nloader4"></div>
         <div className="nloaders nloader3"></div>
-        <span>Coming soon...</span>
+        <span>{message}</span>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@
   --submenu-background: #262626;
   --submenu-header-foreground: #FFFFFF;
   --submenu-tab-foreground: #e3e3e3;
-  --submenu-tab-foreground-hover: #c9c9c9;
+  --submenu-tab-foreground-hover: #ffffff;
   --submenu-tab-foreground-active: #FFFFFF;
   --submenu-tab-active-marker: #008542;
   --page-background: #323232;
@@ -55,10 +55,13 @@
   --modal-title-foreground: #FFFFFF;
   --modal-horizontal-line: #373737;
   --scrollbar-background: #262626;
-  --scrollbar-thumb-background: #4d4d4d;
-  --scrollbar-thumb-background-hover: #595959;
+  --scrollbar-thumb-background: #515151;
+  --scrollbar-thumb-background-hover: #5C5C5C;
+  --scrollbar-thumb-background-active: #686868;
+  --scrollbar-thumb-background-inactive: #3C3C3C;
   --textbox-background: #131313;
   --textbox-background-hover: #0e0e0e;
+  --texthighlight: #008542;
 }
 
 * {
@@ -142,6 +145,10 @@ body {
   color: white;
 }
 
+*::selection {
+  background: var(--texthighlight);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -161,6 +168,7 @@ code {
   overflow-y: auto;
   height: 100%;
   overflow-x: hidden;
+  overflow: hidden;
 }
 
 .routes {
@@ -181,6 +189,14 @@ code {
   background: var(--scrollbar-thumb-background-hover);
 }
 
+::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-background-active);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: var(--scrollbar-thumb-background-inactive);
+}
+
 .base-route {
   display: flex;
   position: relative;
@@ -189,6 +205,23 @@ code {
   background: var(--page-background);
   overflow: hidden;
   color: var(--page-foreground);
+
+  &.anim {
+    transform: translate(0, 10%);
+    animation: routeAnim 400ms linear forwards;
+  }
+}
+
+@keyframes routeAnim {
+  0% {
+    transform: translate(0, 10%);
+  }
+  50% {
+    transform: translate(0, 0%);
+  }
+  100% {
+    transform: translate(0, 0%);
+  }
 }
 
 .sub-page {
@@ -198,6 +231,156 @@ code {
   flex-direction: column;
   height: 100%;
   overflow-x: hidden;
+
+  &.anim {
+    opacity: 0;
+    transform: translate(10%);
+    animation: subpageRightAnim 600ms ease-in forwards;
+  }
+}
+
+@keyframes subpageLeftAnim {
+  0% {
+    opacity: 0;
+    transform: translate(-10%);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0%);
+  }
+}
+
+@keyframes subpageRightAnim {
+  0% {
+    opacity: 0;
+    transform: translate(25%);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0%);
+  }
+}
+
+// Dialog Modal
+.Overlay {
+  top: 0;
+  left: 0;
+}
+
+.dialog-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  outline: none;
+  background: var(--modal-background);
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+
+  &.anim {
+    opacity: 0;
+    transform: translate(0, -10%);
+    animation: modalAnim 400ms linear forwards;
+  }
+
+
+  header {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    width: 100%;
+    height: 61px;
+    min-height: 61px;
+    max-height: 61px;
+    position: relative;
+    border-bottom: 1px solid var(--modal-horizontal-line);
+  
+    h2 {
+      font-family: 'Noto Sans Bold';
+      color: var(--modal-title-foreground);
+      font-size: 1.1rem;
+      font-weight: 100;
+    }
+  
+    .close-btn {
+      cursor: pointer;
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      right: 10px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+  
+      &:hover,
+      &:focus {
+        outline: none;
+        background: #ffffff39;
+      }
+
+      &:active {
+        background: #ffffff29;
+      }
+    }
+  
+    .close-icon {
+      width: 36px;
+      padding: 10px;
+    }
+  }
+
+  main {
+    overflow-y: auto;
+    padding: 0 0 2rem 0;
+    height: 100%;
+     
+    .container {
+      padding: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      margin: auto;
+    }
+  }
+  
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0 1rem;
+    gap: 0 0.7rem;
+    width: 100%;
+    height: 72px;
+    min-height: 72px;
+    max-height: 72px;
+    position: relative;
+    border-top: 1px solid var(--modal-horizontal-line);
+  }
+}
+
+@keyframes modalAnim {
+  0% {
+    opacity: 0;
+    transform: translate(0, -10%);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(0, 0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0%);
+  }
 }
 
 // Notifs

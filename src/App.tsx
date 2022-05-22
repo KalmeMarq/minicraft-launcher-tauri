@@ -17,11 +17,19 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import { useState } from "react";
+import WhatsNewDialog from "@frontend/components/WhatsNewDialog";
 
 function App() {
+  const [showDialog, setShowDialog] = useState(false);
+
   return (
     <>
       <div className="app">
+        <WhatsNewDialog
+          isOpen={showDialog}
+          onClose={() => setShowDialog(false)}
+        />
         <Router>
           <MainMenu>
             <MainMenuTab
@@ -41,7 +49,7 @@ function App() {
             <div className="filler"></div>
             <MainMenuTabButton
               onClick={() => {
-                console.log("open what's new");
+                setShowDialog(true);
               }}
               tooltip="What's New"
               icon={lnewsIcon}

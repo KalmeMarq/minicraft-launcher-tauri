@@ -1,0 +1,94 @@
+.patch-modal {
+  -moz-user-select: text;
+  -webkit-user-select: text;	
+  user-select: text;
+
+  .container {
+    max-width: 880px;
+    width: 880px;
+    min-width: 880px;
+    margin: auto;
+  }
+
+  h1 {
+    font-family: 'Noto Sans Bold';
+    color: var(--patchnote-h1-foreground);
+    font-size: 1.7rem;
+  }
+
+  h2 {
+    font-family: 'Noto Sans Bold';
+    color: var(--patchnote-h2-foreground);
+    font-size: 1.4rem;
+  }
+
+  h3 {
+    font-family: 'Noto Sans Bold';
+    color: var(--patchnote-h3-foreground);
+    font-size: 1.1rem;
+  }
+
+  h5 {
+    font-family: 'Noto Sans Bold';
+    color: var(--patchnote-h5-foreground);
+    font-size: 0.9rem;
+  }
+
+  h4 {
+    font-family: 'Noto Sans Bold';
+    color: var(--patchnote-h4-foreground);
+    font-size: 1rem;
+    padding: 1rem 0 0;
+  }
+
+  p {
+    font-family: 'Noto Sans';
+    font-size: 0.9rem;
+    color: var(--patchnote-p-foreground);
+    padding: 1rem 0;
+  }
+
+  li {
+    font-family: 'Noto Sans';
+    font-size: 0.9rem;
+    color: var(--patchnote-li-foreground);
+    padding: 0.1rem;
+  }
+
+  ul {
+    padding: 0.6rem 1rem;
+    margin-left: 25px;
+  }
+
+  a {
+    font-family: 'Noto Sans Bold';
+    font-size: 0.9rem;
+    color: var(--patchnote-a-foreground);
+    text-decoration-color: var(--patchnote-a-foreground);
+    padding: 0.1rem 0.4rem 0.2rem;
+    border-radius: 4px;
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    place-items: center;
+
+    outline: none;
+
+    &:hover,
+    &:focus {
+      background: hsl(0, 0%, 35%);
+    }
+
+    &:after {
+      position: relative;
+      top: -8px;
+      left: 2px;
+      display: inline-block;
+      content: url(../../../../assets/assets/icons/hyperlink.png);
+      width: 14px;
+      height: 0px;
+      padding: 0 0.1rem;
+      image-rendering: pixelated;
+    }
+  }
+}
