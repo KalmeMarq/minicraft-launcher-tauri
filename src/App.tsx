@@ -17,11 +17,18 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import WhatsNewDialog from "@frontend/components/WhatsNewDialog";
+import { invoke } from "@tauri-apps/api/tauri";
+import {
+  SettingsContext,
+  SettingsProvider,
+} from "@frontend/context/SettingsContext";
 
 function App() {
   const [showDialog, setShowDialog] = useState(false);
+
+  const { showCommunityTab } = useContext(SettingsContext);
 
   return (
     <>
@@ -43,9 +50,11 @@ function App() {
             <MainMenuTab to="/minicraft" tooltip="Minicraft" icon={miniIcon}>
               Minicraft
             </MainMenuTab>
-            <MainMenuTab to="/community" tooltip="Community" icon={comIcon}>
-              Community
-            </MainMenuTab>
+            {showCommunityTab && (
+              <MainMenuTab to="/community" tooltip="Community" icon={comIcon}>
+                Community
+              </MainMenuTab>
+            )}
             <div className="filler"></div>
             <MainMenuTabButton
               onClick={() => {

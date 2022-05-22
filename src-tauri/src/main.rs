@@ -3,15 +3,15 @@
     windows_subsystem = "windows"
 )]
 
-use std::{path::PathBuf, fs::{File, self}, future::Future};
+use std::{path::PathBuf, fs::{File, self}, future::Future, borrow::BorrowMut, sync::Mutex};
 use serde::{Deserialize, Serialize};
-use tauri::{WindowBuilder, WindowUrl, Theme, Manager};
+use tauri::{WindowBuilder, WindowUrl, Theme, Manager, State};
 mod versions;
 use versions::Versions;
 
 struct LauncherState {
     versions: Versions,
-    settings: LauncherSettings
+    pub settings: Mutex<LauncherSettings>
 }
 
 #[tauri::command]
@@ -101,6 +101,105 @@ struct LauncherSettings {
     disable_hardware_acceleration: bool
 }
 
+static LANGUAGES: [&str; 3] = ["en-US", "pt-PT", "pt-BR"];
+
+impl LauncherSettings {
+    pub fn set_keep_launcher_open(&mut self, value: bool) {
+        self.keep_launcher_open = value;
+    }
+
+    pub fn set_language(&mut self, value: &str) {
+        if LANGUAGES.contains(&value) {
+            self.language = value.to_string();
+        }
+    }
+
+    pub fn set_show_community_tab(&mut self, value: bool) {
+        self.show_community_tab = value;
+    }
+
+    pub fn set_animate_pages(&mut self, value: bool) {
+        self.animate_pages = value;
+    }
+
+    pub fn set_disable_hardware_acceleration(&mut self, value: bool) {
+        self.disable_hardware_acceleration = value;
+    }
+
+    pub fn set_open_output_log(&mut self, value: bool) {
+        self.open_output_log = value;
+    }
+
+    pub fn set_theme(&mut self, value: &str) {
+        self.theme = value.to_string();
+    }
+}
+
+fn parse_set_bool(val: &str) -> bool {
+    match val {
+        "true" => true,
+        "false" => false,
+        _ => false
+    }
+}
+
+#[tauri::command]
+fn set_setting(state: State<LauncherState>, option: String) {
+    let v: Vec<&str> = option.split(":").collect();
+    let o = v.get(0);
+    let w = v.get(1).unwrap();
+
+    if v.len() >= 2 {
+        match o {
+            Some(&"keep_launcher_open") => {
+                state.settings.lock().unwrap().set_keep_launcher_open(parse_set_bool(w));
+                println!("keep_launcher_open setted: {}", parse_set_bool(w));
+            },
+            Some(&"language") => {
+                state.settings.lock().unwrap().set_language(w);
+                println!("language setted: {}", w);
+            },
+            Some(&"theme") => {
+                state.settings.lock().unwrap().set_theme(w);
+                println!("theme setted: {}", w);
+            },
+            Some(&"show_community_tab") => {
+                state.settings.lock().unwrap().set_show_community_tab(parse_set_bool(w));
+                println!("show_community_tab setted: {}", parse_set_bool(w));
+            },
+            Some(&"open_output_log") => {
+                state.settings.lock().unwrap().set_open_output_log(parse_set_bool(w));
+                println!("open_output_log setted: {}", parse_set_bool(w));
+            },
+            Some(&"animate_pages") => {
+                state.settings.lock().unwrap().set_animate_pages(parse_set_bool(w));
+                println!("animate_pages setted: {}", parse_set_bool(w));
+            },
+            Some(&"disable_hardware_acceleration") => {
+                state.settings.lock().unwrap().set_disable_hardware_acceleration(parse_set_bool(w));
+                println!("disable_hardware_acceleration setted: {}", parse_set_bool(w));
+            },
+            Some(&_) => println!("unknown setted"),
+            None => {}
+        }
+    }
+}
+
+
+#[tauri::command]
+fn get_setting(state: State<LauncherState>, option: &str) -> String {
+    match option {
+        "keep_launcher_open" => state.settings.lock().unwrap().keep_launcher_open.to_string(),
+        "language" => state.settings.lock().unwrap().language.clone(),
+        "theme" => state.settings.lock().unwrap().theme.clone(),
+        "show_community_tab" => state.settings.lock().unwrap().show_community_tab.to_string(),
+        "open_output_log" => state.settings.lock().unwrap().open_output_log.to_string(),
+        "animate_pages" => state.settings.lock().unwrap().animate_pages.to_string(),
+        "disable_hardware_acceleration" => state.settings.lock().unwrap().disable_hardware_acceleration.to_string(),
+        _ => "unknown".to_string()
+    }
+}
+
 fn load_settings() -> LauncherSettings {
     let settings_path = get_launcher_path().join("launcher_settings.json");
 
@@ -183,13 +282,14 @@ async fn main() {
             tauri::async_runtime::spawn(async move {
                 let _versions = load_versions().await;
                 let _settings = load_settings();
-                main_win.manage(LauncherState { versions: _versions, settings: _settings });
+
+                main_win.manage(LauncherState { versions: _versions, settings: Mutex::from(_settings) });
                 main_win.show().unwrap();
             });
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![get_launcher_path, get_version_list, get_minicraftplus_patch_notes, get_minicraft_patch_notes, get_launcher_patch_notes])
+        .invoke_handler(tauri::generate_handler![set_setting, get_setting, get_launcher_path, get_version_list, get_minicraftplus_patch_notes, get_minicraft_patch_notes, get_launcher_patch_notes])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

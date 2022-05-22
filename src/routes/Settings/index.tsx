@@ -1,12 +1,16 @@
 import SubMenu from "@frontend/components/SubMenu";
+import { SettingsContext } from "@frontend/context/SettingsContext";
 import About from "@frontend/routes/Settings/pages/About";
 import General from "@frontend/routes/Settings/pages/General";
 import Versions from "@frontend/routes/Settings/pages/Versions";
+import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const Settings = () => {
+  const { animatePages } = useContext(SettingsContext);
+
   return (
-    <div className="base-route">
+    <div className={`base-route ${animatePages ? "anim" : ""}`}>
       <SubMenu>
         <SubMenu.Title text="Settings" />
         <SubMenu.Navbar>

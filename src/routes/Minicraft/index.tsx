@@ -1,12 +1,16 @@
 import SubMenu from "@frontend/components/SubMenu";
+import { SettingsContext } from "@frontend/context/SettingsContext";
 import Installations from "@frontend/routes/Minicraft/pages/Installations";
 import PatchNotes from "@frontend/routes/Minicraft/pages/PatchNotes";
 import Play from "@frontend/routes/Minicraft/pages/Play";
+import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 const Minicraft = () => {
+  const { animatePages } = useContext(SettingsContext);
+
   return (
-    <div className="base-route">
+    <div className={`base-route ${animatePages ? "anim" : ""}`}>
       <SubMenu>
         <SubMenu.Title text="Minicraft" />
         <SubMenu.Navbar>

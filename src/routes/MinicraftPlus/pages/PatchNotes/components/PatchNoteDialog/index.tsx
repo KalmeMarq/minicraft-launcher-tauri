@@ -3,16 +3,20 @@ import Modal from "react-modal";
 import "./index.scss";
 import cancelIcon from "@frontend/assets/images/cancel.png";
 import DOMPurify from "dompurify";
+import { useContext } from "react";
+import { SettingsContext } from "@frontend/context/SettingsContext";
 
 const PatchNoteDialog: React.FC<{
   patch: PatchNote;
   isOpen: boolean;
   onClose: () => void;
 }> = ({ patch, isOpen, onClose }) => {
+  const { animatePages } = useContext(SettingsContext);
+
   return (
     <Modal
       isOpen={isOpen}
-      className="dialog-modal patch-modal"
+      className={`dialog-modal ${animatePages ? "anim" : ""} patch-modal`}
       overlayClassName="Overlay"
       shouldReturnFocusAfterClose={false}
       onRequestClose={onClose}

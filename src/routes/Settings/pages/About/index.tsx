@@ -9,8 +9,8 @@ import { lazy, useEffect, useState } from "react";
 import "./index.scss";
 
 const About = () => {
-  const [version, setVersion] = useState("");
-  const [date, setDate] = useState("");
+  const [version, setVersion] = useState("0.0.0");
+  const [date, setDate] = useState("0000-00-00");
   const [showNewsDialog, setShowNewsDialog] = useState(false);
   const [showLicenseDialog, setShowLicenseDialog] = useState(false);
 

@@ -4,6 +4,7 @@ import "./index.scss";
 import cancelIcon from "@frontend/assets/images/cancel.png";
 import { invoke } from "@tauri-apps/api";
 import DOMPurify from "dompurify";
+import { SettingsContext } from "@frontend/context/SettingsContext";
 
 export interface LauncherPatchNote {
   id: string;
@@ -17,6 +18,7 @@ const WhatsNewDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   onClose,
 }) => {
   const [patchNotes, setPatchNotes] = useState<LauncherPatchNote[]>([]);
+  const { animatePages } = useContext(SettingsContext);
 
   useEffect(() => {
     if (patchNotes.length === 0) {
@@ -29,7 +31,7 @@ const WhatsNewDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   return (
     <Modal
       isOpen={isOpen}
-      className="dialog-modal lnews-modal"
+      className={`dialog-modal ${animatePages ? "anim" : ""} lnews-modal`}
       overlayClassName="Overlay"
       shouldReturnFocusAfterClose={false}
       onRequestClose={onClose}

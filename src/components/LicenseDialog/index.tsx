@@ -2,15 +2,19 @@ import Modal from "react-modal";
 import cancelIcon from "@frontend/assets/images/cancel.png";
 import licenses from "@frontend/assets/thirdparty_licenses.json";
 import "./index.scss";
+import { useContext } from "react";
+import { SettingsContext } from "@frontend/context/SettingsContext";
 
 const LicenseDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
 }) => {
+  const { animatePages } = useContext(SettingsContext);
+
   return (
     <Modal
       isOpen={isOpen}
-      className="dialog-modal tp-modal"
+      className={`dialog-modal ${animatePages ? "anim" : ""} tp-modal`}
       overlayClassName="Overlay"
       shouldReturnFocusAfterClose={false}
       onRequestClose={onClose}

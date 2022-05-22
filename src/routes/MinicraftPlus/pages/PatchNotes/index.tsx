@@ -1,7 +1,8 @@
 import LoadingSpinner from "@frontend/components/LoadingSpinner";
+import { SettingsContext } from "@frontend/context/SettingsContext";
 import PatchNoteDialog from "@frontend/routes/MinicraftPlus/pages/PatchNotes/components/PatchNoteDialog";
 import { invoke } from "@tauri-apps/api";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./index.scss";
 
 export interface PatchNote {
@@ -33,6 +34,8 @@ const PatchNotes = () => {
   const [noteSelected, setNoteSelected] = useState<null | PatchNote>(null);
   const [patchNotes, setPatchNotes] = useState<PatchNote[]>([]);
 
+  const { animatePages } = useContext(SettingsContext);
+
   useEffect(() => {
     if (patchNotes.length === 0) {
       invoke("get_minicraftplus_patch_notes").then((d) => {
@@ -42,7 +45,7 @@ const PatchNotes = () => {
   }, []);
 
   return (
-    <div className="sub-page">
+    <div className={`sub-page ${animatePages ? "anim" : ""}`}>
       {noteSelected !== null && (
         <PatchNoteDialog
           onClose={() => setShowPatchDialog(false)}
