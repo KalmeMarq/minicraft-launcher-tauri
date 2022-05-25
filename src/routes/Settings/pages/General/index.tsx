@@ -10,10 +10,7 @@ export const Checkbox: React.FC<{
   propKey: string;
   onChange?: (value: boolean, propKey: string) => void;
 }> = ({ value, propKey, children, onChange }) => {
-  const [checked, setChecked] = useState(value);
-
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(e.target.checked);
     if (onChange) onChange(e.target.checked, propKey);
   };
 
@@ -23,7 +20,7 @@ export const Checkbox: React.FC<{
         <div className="check-box">
           <input
             type="checkbox"
-            checked={checked}
+            checked={value}
             onChange={handleCheckboxChange}
           />
           <div className="check-fake">
@@ -45,8 +42,10 @@ const General = () => {
     disableHardwareAcceleration,
     setOption,
   } = useContext(SettingsContext);
+  console.log(animatePages, "animatePages");
+
   return (
-    <div className="sub-page general-page">
+    <div className={`sub-page ${animatePages ? "anim" : ""} general-page`}>
       <h3>Launcher Settings</h3>
       <Checkbox
         value={keepLauncherOpen}

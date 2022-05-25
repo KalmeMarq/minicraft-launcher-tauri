@@ -3,11 +3,11 @@
     windows_subsystem = "windows"
 )]
 
-use std::{path::PathBuf, fs::{File, self}, future::Future, borrow::BorrowMut, sync::Mutex};
+use std::{path::PathBuf, fs::{File, self}, future::Future, sync::Mutex};
 use serde::{Deserialize, Serialize};
 use tauri::{WindowBuilder, WindowUrl, Theme, Manager, State};
 mod versions;
-use versions::Versions;
+use versions::{Versions, Version};
 
 struct LauncherState {
     versions: Versions,
@@ -30,6 +30,19 @@ fn get_cache_path() -> PathBuf {
 #[tauri::command]
 fn get_version_list(state: tauri::State<LauncherState>) -> &Versions {
     &state.inner().versions
+}
+
+#[tauri::command]
+fn get_local_version_list(state: State<LauncherState>) -> Vec<&Version> {
+    let mut lv: Vec<&Version> = Vec::new();
+
+    for ver in state.inner().versions.versions.iter() {
+        if ver.has_locally() {
+            lv.push(&ver);
+        }
+    }
+
+    lv
 }
 
 async fn get_json_cached_file(file_path: PathBuf, request_url: &str) -> serde_json::Value {
@@ -279,6 +292,9 @@ async fn main() {
                 .visible(false)
                 .build().unwrap();
 
+            let a: Vec<String> = std::env::args().collect();
+            println!("ARG: {:?}", a);
+
             tauri::async_runtime::spawn(async move {
                 let _versions = load_versions().await;
                 let _settings = load_settings();
@@ -289,7 +305,16 @@ async fn main() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![set_setting, get_setting, get_launcher_path, get_version_list, get_minicraftplus_patch_notes, get_minicraft_patch_notes, get_launcher_patch_notes])
+        .invoke_handler(tauri::generate_handler![
+            get_local_version_list,
+            set_setting,
+            get_setting,
+            get_launcher_path,
+            get_version_list,
+            get_minicraftplus_patch_notes,
+            get_minicraft_patch_notes,
+            get_launcher_patch_notes
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

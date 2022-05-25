@@ -4,8 +4,9 @@ import LoadingSpinner from "@frontend/components/LoadingSpinner";
 import WhatsNewDialog, {
   LauncherPatchNote,
 } from "@frontend/components/WhatsNewDialog";
+import { SettingsContext } from "@frontend/context/SettingsContext";
 import { app, invoke } from "@tauri-apps/api";
-import { lazy, useEffect, useState } from "react";
+import { lazy, useContext, useEffect, useState } from "react";
 import "./index.scss";
 
 const About = () => {
@@ -13,6 +14,8 @@ const About = () => {
   const [date, setDate] = useState("0000-00-00");
   const [showNewsDialog, setShowNewsDialog] = useState(false);
   const [showLicenseDialog, setShowLicenseDialog] = useState(false);
+
+  const { animatePages } = useContext(SettingsContext);
 
   useEffect(() => {
     app.getVersion().then((v) => setVersion(v));
@@ -22,7 +25,7 @@ const About = () => {
   }, []);
 
   return (
-    <div className="sub-page">
+    <div className={`sub-page ${animatePages ? "anim" : ""}`}>
       <WhatsNewDialog
         isOpen={showNewsDialog}
         onClose={() => setShowNewsDialog(false)}

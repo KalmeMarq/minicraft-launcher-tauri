@@ -15,4 +15,6 @@ const Root = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("root")!).render(<Root />);
+// console.log("_self" in React.createElement("div"));
+const root = document.getElementById("root") as HTMLDivElement;
+ReactDOM.createRoot(root).render(<Root />);

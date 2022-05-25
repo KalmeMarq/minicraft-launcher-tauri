@@ -45,6 +45,7 @@ export const SettingsProvider: React.FC<{ children?: React.ReactNode }> = ({
       setOpenOutputLog(d === "true" ? true : false);
     });
     invoke("get_setting", { option: "animate_pages" }).then((d) => {
+      console.log("animate_pages: %s", d);
       setAnimatePages(d === "true" ? true : false);
     });
     invoke("get_setting", { option: "disable_hardware_acceleration" }).then(

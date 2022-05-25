@@ -1,13 +1,12 @@
 .patch-modal {
-  -moz-user-select: text;
-  -webkit-user-select: text;	
-  user-select: text;
-
   .container {
     max-width: 880px;
     width: 880px;
     min-width: 880px;
     margin: auto;
+    -moz-user-select: text;
+    -webkit-user-select: text;	
+    user-select: text;
   }
 
   h1 {

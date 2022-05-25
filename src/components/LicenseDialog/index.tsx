@@ -28,7 +28,7 @@ const LicenseDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       <main>
         <div className="container">
           {licenses.licenses.map((lc) => (
-            <div className="tplicense">
+            <div className="tplicense" key={lc.name}>
               <p className="name">
                 <a href={lc.url} rel="noopener" target="_blank">
                   {lc.name}

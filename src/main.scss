@@ -162,6 +162,52 @@ code {
 }
 
 // Base
+.line-h {
+  width: 100%;
+  background: #444;
+  height: 1px;
+}
+
+// #region Installations
+.filter-container {
+  display: flex;
+  flex-direction: row;
+  place-items: center;
+  gap: 0 1.2rem;
+  padding: 0.65rem 0;
+
+  .input-gap {
+    width: 1px;
+    background: #555;
+    height: 26px;
+    margin-top: 15px;
+  }
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px 0;
+
+  p {
+    text-transform: uppercase;
+    font-family: 'Noto Sans Bold';
+    font-size: 11px;
+    margin-left: 2px;
+  }
+}
+
+.checkbox-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0 0.9rem;
+  place-items: center;
+  padding-top: 5px;
+  padding-bottom: 7px;
+}
+// #endregion
+
 .app {
   display: flex;
   flex-direction: row;
@@ -205,7 +251,7 @@ code {
   background: var(--page-background);
   overflow: hidden;
   color: var(--page-foreground);
-
+  
   &.anim {
     transform: translate(0, 10%);
     animation: routeAnim 400ms linear forwards;
@@ -271,8 +317,12 @@ code {
 
 // Dialog Modal
 .Overlay {
-  top: 0;
-  left: 0;
+  position: fixed;
+  display: block;
+  z-index: 10;
+  opacity: 1;
+  transition: 0;
+  visibility: visible;
 }
 
 .dialog-modal {
@@ -285,14 +335,13 @@ code {
   background: var(--modal-background);
   display: flex;
   flex-direction: column;
-  z-index: 1;
-
+  opacity: 1;
+  
   &.anim {
     opacity: 0;
     transform: translate(0, -10%);
-    animation: modalAnim 400ms linear forwards;
+    animation: modalAnim 400ms forwards;
   }
-
 
   header {
     display: flex;
@@ -369,15 +418,11 @@ code {
 }
 
 @keyframes modalAnim {
-  0% {
+  from {
     opacity: 0;
     transform: translate(0, -10%);
   }
-  50% {
-    opacity: 1;
-    transform: translate(0, 0%);
-  }
-  100% {
+  to {
     opacity: 1;
     transform: translate(0, 0%);
   }
