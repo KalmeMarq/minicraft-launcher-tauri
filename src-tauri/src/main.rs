@@ -15,7 +15,7 @@ use tauri::{Manager, State, Theme, WindowBuilder, WindowUrl, api::shell};
 mod profiles;
 mod themes;
 mod versions;
-use versions::{Version, Versions, open_folder_version};
+use versions::{Version, Versions, open_folder_version, delete_version};
 
 pub struct LauncherState {
     versions: Versions,
@@ -396,8 +396,6 @@ async fn main() {
                 .build()
                 .unwrap();
 
-            shell::open(&app.shell_scope(), "file:///C:\\Users\\marq5\\AppData\\Roaming\\.minicraftlauncher\\versions\\miniventure_a2.2.jar", None);
-
             tauri::async_runtime::spawn(async move {
                 let _versions = load_versions().await;
                 let _settings = load_settings();
@@ -425,7 +423,8 @@ async fn main() {
             delete_profile,
             create_profile,
             get_profiles,
-            open_folder_version
+            open_folder_version,
+            delete_version
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

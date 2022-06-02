@@ -1,7 +1,6 @@
-use std::process::Command;
+use std::{process::Command, fs};
 
 use serde::{Serialize, Deserialize};
-use tauri::{api::shell, App, window};
 
 use crate::get_versions_path;
 
@@ -39,4 +38,13 @@ pub fn open_folder_version(mut id: String) {
 
     #[cfg(target_os = "linux")]
     Command::new("xdg-open").arg(&path).spawn().unwrap();
+}
+
+#[tauri::command]
+pub fn delete_version(mut id: String) {
+    id.push_str(".jar");
+    let path = get_versions_path().join(id);
+    println!("{:?}", &path);
+
+    fs::remove_file(&path).expect("Could not remove version");
 }

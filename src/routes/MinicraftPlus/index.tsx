@@ -1,5 +1,6 @@
 import SubMenu from "@frontend/components/SubMenu";
 import { SettingsContext } from "@frontend/context/SettingsContext";
+import FAQ from "@frontend/routes/MinicraftPlus/pages/FAQ";
 import Installations from "@frontend/routes/MinicraftPlus/pages/Installations";
 import PatchNotes from "@frontend/routes/MinicraftPlus/pages/PatchNotes";
 import Play from "@frontend/routes/MinicraftPlus/pages/Play";
@@ -15,6 +16,7 @@ const MinicraftPlus = () => {
         <SubMenu.Title text="Minicraft Plus" />
         <SubMenu.Navbar>
           <SubMenu.Link to="/minicraftplus/play" text="Play" />
+          <SubMenu.Link to="/minicraftplus/faq" text="FAQ" />
           <SubMenu.Link
             to="/minicraftplus/installations"
             text="Installations"
@@ -28,6 +30,7 @@ const MinicraftPlus = () => {
           element={<Navigate to="/minicraftplus/play" replace />}
         />
         <Route path="/play" element={<Play />} />
+        <Route path="/faq" element={<FAQ />} />
         <Route path="/installations" element={<Installations />} />
         <Route path="/patchnotes" element={<PatchNotes />} />
       </Routes>

@@ -57,27 +57,27 @@ pub fn create_profile(
     );
 }
 
-pub fn update_profile(
-    profile: Profile,
-    state: tauri::State<LauncherProfiles>,
-) {
-    let profs = &state.inner().profiles;
-    // let old = &state.inner().profiles.get(&id);
+// pub fn update_profile(
+//     profile: Profile,
+//     state: tauri::State<LauncherProfiles>,
+// ) {
+//     let profs = &state.inner().profiles;
+//     // let old = &state.inner().profiles.get(&id);
 
-    // if let Some(oldprofile) = old {
-    //     &state.inner().profiles.insert(
-    //         id,
-    //         Profile {
-    //             name: String::from(""),
-    //             version_id: String::from(""),
-    //             total_play_time: 0,
-    //             jvm_args: String::from(""),
-    //             save_dir: String::from(""),
-    //             modloader: String::from(""),
-    //         },
-    //     );
-    // }
-}
+//     // if let Some(oldprofile) = old {
+//     //     &state.inner().profiles.insert(
+//     //         id,
+//     //         Profile {
+//     //             name: String::from(""),
+//     //             version_id: String::from(""),
+//     //             total_play_time: 0,
+//     //             jvm_args: String::from(""),
+//     //             save_dir: String::from(""),
+//     //             modloader: String::from(""),
+//     //         },
+//     //     );
+//     // }
+// }
 
 #[tauri::command]
 pub fn delete_profile(id: String, state: tauri::State<LauncherState>) {

@@ -11,7 +11,7 @@
   --submenu-tab-foreground-hover: #ffffff;
   --submenu-tab-foreground-active: #FFFFFF;
   --submenu-tab-active-marker: #008542;
-  --page-background: #323232;
+  --page-background: #333;
   --page-foreground: #FFFFFF;
   --page-horizontal-line: #494949;
   --patchnotecard-background: #0F0F0F;
@@ -282,6 +282,38 @@ code {
     opacity: 0;
     transform: translate(10%);
     animation: subpageRightAnim 600ms ease-in forwards;
+  }
+
+  a {
+    font-family: 'Noto Sans Bold';
+    font-size: 0.9rem;
+    color: var(--patchnote-a-foreground);
+    text-decoration-color: var(--patchnote-a-foreground);
+    padding: 0.1rem 0.4rem 0.2rem;
+    border-radius: 4px;
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    place-items: center;
+  
+    outline: none;
+  
+    &:hover,
+    &:focus {
+      background: hsl(0, 0%, 35%);
+    }
+  
+    &:after {
+      position: relative;
+      top: -8px;
+      left: 2px;
+      display: inline-block;
+      content: url(./assets/images/hyperlink.png);
+      width: 14px;
+      height: 0px;
+      padding: 0 0.1rem;
+      image-rendering: pixelated;
+    }
   }
 }
 
