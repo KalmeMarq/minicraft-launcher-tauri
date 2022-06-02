@@ -5,6 +5,7 @@ import cancelIcon from "@frontend/assets/images/cancel.png";
 import DOMPurify from "dompurify";
 import { useContext } from "react";
 import { SettingsContext } from "@frontend/context/SettingsContext";
+import { T } from "@frontend/context/TranslationContext";
 
 const PatchNoteDialog: React.FC<{
   patch: PatchNote;
@@ -23,7 +24,7 @@ const PatchNoteDialog: React.FC<{
     >
       <header>
         <h2>
-          Patch notes {patch.title} ({patch.version})
+          <T>Patch notes</T> {patch.title} ({patch.version})
         </h2>
         <button className="close-btn" onClick={() => onClose()}>
           <img src={cancelIcon} className="close-icon" alt="close" />

@@ -1,5 +1,6 @@
 import LoadingSpinner from "@frontend/components/LoadingSpinner";
 import { SettingsContext } from "@frontend/context/SettingsContext";
+import { T } from "@frontend/context/TranslationContext";
 import { useContext, useState } from "react";
 import checkmark from "../../../../assets/images/optionmark.png";
 import "./index.scss";
@@ -39,14 +40,34 @@ const General = () => {
     keepLauncherOpen,
     animatePages,
     openOutputLog,
+    language,
     disableHardwareAcceleration,
     setOption,
   } = useContext(SettingsContext);
-  console.log(animatePages, "animatePages");
 
   return (
     <div className={`sub-page ${animatePages ? "anim" : ""} general-page`}>
-      <h3>Launcher Settings</h3>
+      <h3>
+        <T>Language</T>
+      </h3>
+      <select
+        onChange={(e) => {
+          setOption("language", e.currentTarget.value);
+        }}
+        onSelectCapture={() => {
+          console.log("bruh");
+        }}
+      >
+        <option selected={language === "en-US"} value="en-US">
+          en-US
+        </option>
+        <option selected={language === "pt-PT"} value="pt-PT">
+          pt-PT
+        </option>
+      </select>
+      <h3>
+        <T>Launcher Settings</T>
+      </h3>
       <Checkbox
         value={keepLauncherOpen}
         propKey="keep_launcher_open"
@@ -54,7 +75,7 @@ const General = () => {
           setOption(k, v);
         }}
       >
-        Keep the Launcher open while games are running
+        <T>Keep the Launcher open while games are running</T>
       </Checkbox>
 
       <Checkbox
@@ -64,7 +85,7 @@ const General = () => {
           setOption(k, v);
         }}
       >
-        Animate transitions between pages in the Launcher
+        <T>Animate transitions between pages in the Launcher</T>
       </Checkbox>
       <Checkbox
         value={disableHardwareAcceleration}
@@ -73,7 +94,7 @@ const General = () => {
           setOption(k, v);
         }}
       >
-        Disable hardware acceleration (requires restarting the Launcher)
+        <T>Disable hardware acceleration (requires restarting the Launcher)</T>
       </Checkbox>
       <Checkbox
         value={showCommunityTab}
@@ -82,9 +103,11 @@ const General = () => {
           setOption(k, v);
         }}
       >
-        Show community tab
+        <T>Show community tab</T>
       </Checkbox>
-      <h3>Minicraft Settings</h3>
+      <h3>
+        <T>Minicraft Settings</T>
+      </h3>
       <Checkbox
         value={openOutputLog}
         propKey="open_output_log"
@@ -92,7 +115,7 @@ const General = () => {
           setOption(k, v);
         }}
       >
-        Open output log when Minicraft starts
+        <T>Open output log when Minicraft starts</T>
       </Checkbox>
     </div>
   );

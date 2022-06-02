@@ -76,15 +76,17 @@ const Community = () => {
       {filteredResults.map((i) => (
         <p key={i}>{i}</p>
       ))} */}
-      {/* <SubMenu>
-        <SubMenu.Title text="Community" />
-        <SubMenu.Navbar>
-          <SubMenu.Link to="/community/resourcepacks" text="Resource Packs" />
-          <SubMenu.Link to="/community/skinpacks" text="Skin Packs" />
-          <SubMenu.Link to="/community/mods" text="Mods" />
-          <SubMenu.Link to="/community/texturepacks" text="Texture Packs" />
-        </SubMenu.Navbar>
-      </SubMenu> */}
+      {import.meta.env.DEV && (
+        <SubMenu>
+          <SubMenu.Title text="Community" />
+          <SubMenu.Navbar>
+            <SubMenu.Link to="/community/resourcepacks" text="Resource Packs" />
+            <SubMenu.Link to="/community/skinpacks" text="Skin Packs" />
+            <SubMenu.Link to="/community/mods" text="Mods" />
+            <SubMenu.Link to="/community/texturepacks" text="Texture Packs" />
+          </SubMenu.Navbar>
+        </SubMenu>
+      )}
       <LoadingSpinner />
     </div>
   );

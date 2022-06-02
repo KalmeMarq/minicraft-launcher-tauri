@@ -1,4 +1,7 @@
+use std::process::Command;
+
 use serde::{Serialize, Deserialize};
+use tauri::{api::shell, App, window};
 
 use crate::get_versions_path;
 
@@ -20,4 +23,20 @@ impl Version {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Versions {
     pub versions: Vec<Version>
+}
+
+#[tauri::command]
+pub fn open_folder_version(mut id: String) {
+    id.push_str(".jar");
+    let path = get_versions_path().join(id);
+    println!("{:?}", &path);
+
+    #[cfg(target_os = "windows")]
+    Command::new("explorer").arg("/select,".to_owned() + path.to_str().unwrap()).spawn().unwrap();
+
+    #[cfg(target_os = "macos")]
+    Command::new("open").args(["-R", &path]).spawn().unwrap();
+
+    #[cfg(target_os = "linux")]
+    Command::new("xdg-open").arg(&path).spawn().unwrap();
 }

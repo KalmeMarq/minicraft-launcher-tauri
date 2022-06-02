@@ -43,6 +43,7 @@ const Versions = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       // window.ipcRenderer.send('ipc:openInstalledVersion', version.id);
+                      invoke("open_folder_version", { id: version.id });
                     }}
                   />
                   <BorderedButton

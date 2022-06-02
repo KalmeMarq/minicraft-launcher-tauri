@@ -4,6 +4,7 @@ import licenses from "@frontend/assets/thirdparty_licenses.json";
 import "./index.scss";
 import { useContext } from "react";
 import { SettingsContext } from "@frontend/context/SettingsContext";
+import { T } from "@frontend/context/TranslationContext";
 
 const LicenseDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
@@ -20,7 +21,9 @@ const LicenseDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       onRequestClose={onClose}
     >
       <header>
-        <h2>Third-party licenses</h2>
+        <h2>
+          <T>Third-party licenses</T>
+        </h2>
         <button className="close-btn" onClick={() => onClose()}>
           <img src={cancelIcon} className="close-icon" alt="close" />
         </button>

@@ -5,6 +5,7 @@ import WhatsNewDialog, {
   LauncherPatchNote,
 } from "@frontend/components/WhatsNewDialog";
 import { SettingsContext } from "@frontend/context/SettingsContext";
+import { T } from "@frontend/context/TranslationContext";
 import { app, invoke } from "@tauri-apps/api";
 import { lazy, useContext, useEffect, useState } from "react";
 import "./index.scss";
@@ -62,13 +63,17 @@ const About = () => {
             rel="noopener noreferrer"
             href="https://github.com/KalmeMarq/minicraft-launcher-tauri/issues"
           >
-            Report a Launcher bug
+            <T>Report a Launcher bug</T>
           </a>
         </div>
         <div className="divider"></div>
         <div className="about-section">
-          <h3>Credits and Third-party licenses</h3>
-          <p>Made by KalmeMarq</p>
+          <h3>
+            <T>Credits and Third-party licenses</T>
+          </h3>
+          <p>
+            <T>Made by</T> KalmeMarq
+          </p>
           <br />
           <BorderedButton
             text="Third-party licenses"
@@ -81,7 +86,9 @@ const About = () => {
         </div>
         <div className="divider"></div>
         <div className="about-section links-section">
-          <h3>Links</h3>
+          <h3>
+            <T>Links</T>
+          </h3>
           <a
             href="https://discord.gg/SMKCVuj"
             target="_blank"

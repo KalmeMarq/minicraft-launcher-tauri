@@ -1,3 +1,5 @@
+import { useTranslation } from "@frontend/context/TranslationContext";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import "./index.scss";
 
@@ -6,21 +8,24 @@ const SubMenuLink: React.FC<{ to: string; title?: string; text: string }> = ({
   text,
   title,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <li>
       <NavLink
         className={(prop) => (prop.isActive ? "active" : "")}
-        title={title ?? text}
+        title={t(title ?? text)}
         to={to}
       >
-        {text}
+        {t(text)}
       </NavLink>
     </li>
   );
 };
 
 const SubMenuTitle: React.FC<{ text: string }> = ({ text }) => {
-  return <h2>{text}</h2>;
+  const { t } = useTranslation();
+  return <h2>{t(text)}</h2>;
 };
 
 const SubMenuNavbar: React.FC<{ children?: React.ReactNode }> = ({

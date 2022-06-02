@@ -1,3 +1,4 @@
+import { useTranslation } from "@frontend/context/TranslationContext";
 import "./index.scss";
 
 const BorderedButton: React.FC<{
@@ -7,6 +8,8 @@ const BorderedButton: React.FC<{
   onClick: React.MouseEventHandler;
   type?: "normal" | "green" | "red";
 }> = ({ icon, text, onClick, className, type = "normal" }) => {
+  const { t } = useTranslation();
+
   return (
     <button
       className={
@@ -17,7 +20,7 @@ const BorderedButton: React.FC<{
       }
       onClick={onClick}
     >
-      {text}
+      {t(text ?? "")}
       {icon && <img src={icon} />}
     </button>
   );

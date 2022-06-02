@@ -4,13 +4,16 @@ import App from "./App";
 import "./main.scss";
 import Modal from "react-modal";
 import { SettingsProvider } from "@frontend/context/SettingsContext";
+import TranslationProvider from "@frontend/context/TranslationContext";
 
 Modal.setAppElement("#root");
 
 const Root = () => {
   return (
     <SettingsProvider>
-      <App />
+      <TranslationProvider>
+        <App />
+      </TranslationProvider>
     </SettingsProvider>
   );
 };

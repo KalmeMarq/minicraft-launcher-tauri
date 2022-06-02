@@ -1,5 +1,18 @@
 .install-container-wrapper {
   width: 100%;
   max-width: 790px;
-  margin: auto;
+  margin: 0 auto;
+}
+
+.installation-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+
+  img {
+    width: 36px;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+  }
 }

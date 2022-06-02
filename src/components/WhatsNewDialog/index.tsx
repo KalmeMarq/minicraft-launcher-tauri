@@ -5,6 +5,7 @@ import cancelIcon from "@frontend/assets/images/cancel.png";
 import { invoke } from "@tauri-apps/api";
 import DOMPurify from "dompurify";
 import { SettingsContext } from "@frontend/context/SettingsContext";
+import { T } from "@frontend/context/TranslationContext";
 
 export interface LauncherPatchNote {
   id: string;
@@ -37,7 +38,9 @@ const WhatsNewDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       onRequestClose={onClose}
     >
       <header>
-        <h2>What's new in the Launcher?</h2>
+        <h2>
+          <T>What's new in the Launcher?</T>
+        </h2>
         <button className="close-btn" onClick={() => onClose()}>
           <img src={cancelIcon} className="close-icon" alt="close" />
         </button>
